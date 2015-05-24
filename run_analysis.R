@@ -9,17 +9,17 @@
 # Step 1 - Merge the training and the test sets 
 # ------------------------------------------------------------------------------
 
-# training data
-train_x <- read.table("data//train/X_train.txt", nrows=7352, comment.char="")
-train_sub <- read.table("data//train/subject_train.txt", col.names=c("subject"))
-train_y <- read.table("data/train//y_train.txt", col.names=c("activity"))
-train_data <- cbind(train_x, train_sub, train_y)
 
-# test data
-test_x <- read.table("data//test/X_test.txt", nrows=2947, comment.char="")
-test_sub <- read.table("data/test/subject_test.txt", col.names=c("subject"))
+train_x <- read.table("data//train/X_train.txt")
+train_subject <- read.table("data//train/subject_train.txt", col.names=c("subject"))
+train_y <- read.table("data/train//y_train.txt", col.names=c("activity"))
+train_data <- cbind(train_x, train_subject, train_y)
+
+
+test_x <- read.table("data//test/X_test.txt")
+test_subject <- read.table("data/test/subject_test.txt", col.names=c("subject"))
 test_y <- read.table("data/test//y_test.txt", col.names=c("activity"))
-test_data <- cbind(test_x, test_sub, test_y)
+test_data <- cbind(test_x, test_subject, test_y)
 
 # merge both training and test data
 data <- rbind(train_data, test_data)
@@ -50,16 +50,15 @@ for (i in 1:nrow(activities)) {
 }
 
 # ------------------------------------------------------------------------------
-# step 4 - Label the data set with descriptive variable names.
+# step 4 - Make descriptive names 
 # ------------------------------------------------------------------------------
 
 filtered_feature_names <- features[filtered_feature_ids]
 filtered_feature_names <- gsub("\\(\\)", "", filtered_feature_names)
-filtered_feature_names <- gsub("Acc", "-Acceleration", filtered_feature_names)
 filtered_feature_names <- gsub("Mag", "-Magnitude", filtered_feature_names)
+filtered_feature_names <- gsub("Acc", "-Acceleration", filtered_feature_names)
 filtered_feature_names <- gsub("^t(.*)$", "\\1-time", filtered_feature_names)
 filtered_feature_names <- gsub("^f(.*)$", "\\1-frequency", filtered_feature_names)
-filtered_feature_names <- gsub("(Jerk|Gyro)", "-\\1", filtered_feature_names)
 filtered_feature_names <- gsub("BodyBody", "Body", filtered_feature_names)
 filtered_feature_names <- tolower(filtered_feature_names)
 
